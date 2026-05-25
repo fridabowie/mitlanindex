@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mictlantecuhtli | Códice del Inframundo</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Uncial+Antiqua&family=Gochi+Hand&family=Montserrat:wght@300;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* PALETA DE COLORES: Verdes Jade, Esmeralda y Oscuros */
+        :root {
+            --verde-fondo: #020604;
+            --verde-jade: #0a3d2e;
+            --verde-mexicano: #008f39;
+            --verde-brillante: #00ff88;
+            --oro-viejo: #b8860b;
+            --hueso: #f5f5dc;
+        }
+
+        /* FONDO CON TEXTURA DE PIEDRA Y GRECAS */
+        body {
+            background-color: var(--verde-fondo);
+            /* Patrón de grecas aztecas sutil */
+            background-image: url('https://www.transparenttextures.com/patterns/az-subtle.png');
+            color: var(--hueso);
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start; /* Asimetría: todo cargado a la izquierda */
+            overflow-x: hidden;
+        }
+
+        /* --- ELEMENTOS DECORATIVOS FIJOS (CALAVERAS/PERSONAJES) --- */
+        .fijo {
+            position: fixed;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* [Indicación: Aquí pones tus personajes y calaveras externas] */
+        .calavera-sup { top: 5%; right: 5%; width: 20vw; transform: rotate(15deg); filter: drop-shadow(0 0 20px var(--verde-brillante)); }
+        .personaje-inf { bottom: 10%; right: 12%; width: 18vw; transform: rotate(-10deg); }
+
+        /* --- MENÚ SUPERIOR (SE MUEVE CON EL CONTENIDO) --- */
+        .nav-mexicana {
+            width: 100%;
+            padding: 20px 0;
+            background: linear-gradient(to right, var(--verde-jade), transparent);
+            border-bottom: 3px solid var(--verde-brillante);
+            margin-bottom: 20px;
+            z-index: 100;
+        }
+
+        .nav-mexicana ul {
+            display: flex;
+            justify-content: flex-start;
+            gap: 30px;
+            list-style: none;
+            padding-left: 8%; /* Alineado con el cuadro */
+        }
+
+        .nav-mexicana a {
+            text-decoration: none;
+            color: var(--hueso);
+            font-family: 'Uncial Antiqua', serif;
+            font-size: 1rem;
+            text-transform: uppercase;
+            transition: 0.3s;
+            text-shadow: 2px 2px 5px black;
+        }
+
+        .nav-mexicana a:hover {
+            color: var(--verde-brillante);
+            letter-spacing: 2px;
+        }
+
+        /* --- CUADRO PRINCIPAL (ESTILO CÓDICE) --- */
+        .cuadro-central {
+            position: relative;
+            z-index: 10;
+            width: 45%; /* Menos de la mitad para asimetría total */
+            min-width: 350px;
+            margin-left: 8%;
+            background: rgba(5, 10, 8, 0.9);
+            border: 4px solid var(--verde-jade);
+            outline: 2px solid var(--verde-brillante);
+            outline-offset: 5px;
+            padding: 50px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.9);
+            margin-bottom: 100px;
+        }
+
+        /* DECORACIÓN DE GRECAS DENTRO DEL CUADRO */
+        .cuadro-central::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 20px;
+            background-image: repeating-linear-gradient(45deg, var(--verde-jade) 0, var(--verde-jade) 10px, transparent 10px, transparent 20px);
+            opacity: 0.5;
+        }
+
+        .titulo-mexica {
+            font-family: 'Uncial Antiqua', serif;
+            font-size: 3.5rem;
+            color: var(--verde-brillante);
+            margin: 20px 0 0 0;
+            text-shadow: 4px 4px 0px var(--verde-jade);
+        }
+
+        .manuscrito {
+            font-family: 'Gochi Hand', cursive;
+            color: var(--oro-viejo);
+            font-size: 1.4rem;
+            display: block;
+            margin-bottom: 20px;
+        }
+
+        /* SECCIONES DE CONTENIDO */
+        .info-block { margin-bottom: 40px; }
+
+        h2 {
+            font-family: 'Uncial Antiqua', serif;
+            color: var(--verde-brillante);
+            border-bottom: 1px dashed var(--oro-viejo);
+            padding-bottom: 10px;
+        }
+
+        p { line-height: 1.8; text-align: justify; font-weight: 300; }
+
+        /* MARCOS PARA IMÁGENES CON CALAVERAS */
+        .marco-azteca {
+            width: 100%;
+            border: 5px solid #000;
+            background: #111;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .marco-azteca::after {
+            content: '??';
+            position: absolute;
+            bottom: -15px; right: -15px;
+            font-size: 1.5rem;
+        }
+
+        .marco-azteca img {
+            width: 100%;
+            display: block;
+            filter: grayscale(0.2) sepia(0.2) hue-rotate(80deg);
+        }
+
+        /* NOTA TIPO "RECORTE DE PIEDRA" */
+        .nota-piedra {
+            background: #2a2a2a;
+            border-left: 8px solid var(--verde-brillante);
+            padding: 20px;
+            font-family: 'Gochi Hand', cursive;
+            font-size: 1.2rem;
+            margin: 30px 0;
+            transform: rotate(-1deg);
+        }
+
+        /* RESPONSIVIDAD */
+        @media (max-width: 1024px) {
+            .cuadro-central { width: 85%; margin: 20px auto; }
+            .calavera-sup, .personaje-inf { opacity: 0.2; }
+            .nav-mexicana ul { justify-content: center; padding-left: 0; }
+        }
+
+        @media (max-width: 600px) {
+            .fijo { display: none; }
+            .titulo-mexica { font-size: 2rem; }
+            .nav-mexicana a { font-size: 0.8rem; }
+        }
+
+        footer {
+            padding: 50px;
+            text-align: left;
+            padding-left: 8%;
+            font-size: 0.7rem;
+            color: var(--verde-jade);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fijo calavera-sup">
+        <img src="mitlan.jpg" alt="Arte Mictlán" style="width:100%">
+    </div>
+    
+    <div class="fijo personaje-inf">
+        <img src="descarga.jpg" alt="Mictlantecuhtli" style="width:100%">
+    </div>
+
+    <nav class="nav-mexicana">
+        <ul>
+            <li><a href="apariencia.html">Apariencia</a></li>
+            <li><a href="historia.html">Historia</a></li>
+            <li><a href="niveles.html">Mictlán</a></li>
+            <li><a href="inicio.html">Inicio</a></li>
+        </ul>
+    </nav>
+
+    <main class="cuadro-central">
+        
+        <header>
+            <span class="manuscrito">Amo el brillo del jade, pero amo más el silencio del Mictlán...</span>
+            <h1 class="titulo-mexica">MICTLANTECUHTLI</h1>
+        </header>
+
+        <section class="info-block">
+            <h2>El Señor del Noveno Nivel</h2>
+            <div class="marco-azteca">
+                <img src="DIOS_PRINCIPAL.jpg" alt="Mictlantecuhtli en el Códice">
+            </div>
+            <p>
+                Mictlantecuhtli rige el destino final de las almas. Es el guardián de los huesos sagrados y 
+                quien otorga el permiso para que la vida florezca de nuevo. Su reino, el Mictlán, no es un 
+                infierno de castigo, sino un lugar de purificación y descanso tras el agotador viaje terrenal.Al morir, el alma debía cruzar el río Apanohuaya con la ayuda de un Xoloitzcuintle. Las ofrendas en la tierra, llenas de color y aroma a copal, guiaban y daban fuerza al difunto para presentarse ante Mictlantecuhtli con respeto. hay que aclara que en muchas culturas, la muerte es algo malo, es algo horrible... y igualmente a sus dios relacionados con la muerte, lo ven algo malo, algo feo, con miedo... pues para los aztecas la muerte es algo fundamental para ellos, ya que ellos decian que es un paso mas para ser dignos de sus dioses, y el mitlan lo veian como algo hermoso y digno, por que no todos pasaban... ya que ellos hacias muchos sacrificios para sus dioses, por que era como forma de agradecerles por darles la vida y muchas cosas, como el agua, el fuego, la cosecha, la noche el dia etc.agulos aztecas eran preparados desde chicos para cumplir su deber, que era el sacrificio... que a muchos aztecas era una forma muy especial de morir. entre muchos sacrificios que hace Mitlantecuhtli a los que se quedan en uno de los niveles del mitlan, es que le arranca su piel y se la da a su buho. ya que el en uno de los mitos de cultura azteca era que Mitlantecuhtli se quito la piel para crear la nueva generacion de humanos y de seres vivos, tando la piel como las biseras, ya que Mitlantecutli en muchos de los mitos de los aztecas es como representado como malo, un ser malo... y tambien en adaptaciones de la cultura popular. pero no...es un dios que solo cumple su papel y es justo...Mitlantecuhtli es representado erronamente por el esteriotipo de las demas culturas, o religiones..
+            </p>
+        </section>
+
+        <section class="info-block">
+            <div class="nota-piedra">
+                "Dato Prehispánico: Su nombre proviene del náhuatl 'Mictlán' (lugar de los muertos) y 'Tecutli' (señor o caballero)."
+            </div>
+            
+            <h2>Simbolismo y Atributos</h2>
+            <p>
+                A menudo se le representa con un collar de ojos humanos y orejeras de hueso. Sus mensajeros, 
+                los búhos y las arañas, anuncian su presencia en el mundo de los vivos. El color verde jade 
+                en sus representaciones simboliza el valor infinito de la vida que él custodia en la oscuridad.El noveno y más profundo nivel del inframundo. Un lugar de quietud absoluta donde las almas, tras un viaje de cuatro años y ocho pruebas mortales, encuentran el reposo final ante la presencia del Señor y la Señora de la Muerte. la señora de la muerte, su esposa fue destinada como un sacrificio para mitlan, pero su pueblo sufrio una fuerte lluvia de lava, matando a todos, mitantecuhtli al ver el sacrifio de la mujer, la eligio como su esposa... asi reinando junto a el.Mitlantecuhtli el dios que defendio al universo, es uno de los dioses principales, pasando al cuarto lugar despues de la  traicion de         asi tomando el cuarto lugar, el tiene a su corte, ayudantes de el. Su apariencia, es delgada, es casi esqueletica, la piel la tiene pegada a los huesos,no tiene parpados, ya que siempre esta en vigilando, tiene un penacho echo con plumas de buho, tiene un taparravos, que esta degastado, por el tiempo, es muy vanidoso, egocentrico, etc, ya que es el unico dios que tiene poder en el inframundo asi haciendolo muy caprichoso y vanidoso.  
+            
+            
+            <div class="marco-azteca">
+                <img src="codice.png" alt="Símbolos Aztecas">
+            </div>
+        </section>
+
+        <section class="info-block">
+            <h2>El Culto en la Actualidad</h2>
+            <p>
+                Aunque han pasado siglos, la esencia de Mictlantecuhtli sobrevive en la festividad del Día de Muertos. 
+                Es el recordatorio de que somos polvo y estrellas, y que la muerte es simplemente el regreso al 
+                regazo del gran señor del inframundo. Mitlantecuhtli el dios que con su espada de oxidiana defendio al universo hasta la muerte, el dios del descanso, junto a su esposa reinan el inframundo, desiendo quien es digno para obtener el descanso. El mitlan, lugar de descanso enerto... donde los muertos tienen que pasar los nueves niveles del mitlan para obtener el descando eterno, cada nivel es mas dificil que otro...desde atravesar un rio de almas, dos motañas que chocan, muchos animales que te cazan, ser devorado por un jaguar etc...Para ser digno de entrar al mitlan, se tiene que demostra que son dignos para presentarse con Mitlantecuhtli, si no se quedaran en unos de los niveles sufriendo por la eternidad. Soberano de la oscuridad, guardián de los huesos sagrados y señor del descanso eterno en el noveno nivel. sin su trabajo el quinto sol no huniera existido vida, el dios mas mandilon... uno del panteon de los diosos aztecas, es el fundamental en la creacion de la vida, creado por el universo destinado a catigar a los muertos,a realizar un juicio justo, solo los dignos pasaran al mital.
+            </p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>CONALEP 145 - Plantel General Antonio de León</p>
+        <p>Diseño Web: fridi | Grupo de Programación</p>
+    </footer>
+ <script>
+  const mictlan = document.createElement('video');
+  mictlan.src = 'mitlan caminando .mp4';
+  mictlan.autoplay = true;
+  mictlan.loop = true;
+  mictlan.muted = true;
+  mictlan.playsInline = true;
+
+  Object.assign(mictlan.style, {
+    position: 'fixed',
+    bottom: '20px',
+    left: '0px',
+    width: '200px', // Ajusta el tamaño aquí
+    zIndex: '5000',
+    pointerEvents: 'none',
+    // EL TRUCO: 'lighten' hace que el fondo negro/oscuro se vuelva transparente
+    mixBlendMode: 'lighten',
+    filter: 'contrast(1.2) brightness(1.1)'
+  });
+
+  document.body.appendChild(mictlan);
+
+  let x = 0;
+  let vel = 1.5; // Velocidad del paso
+  let sentido = 1;
+
+  function patrullar() {
+    const anchoPantalla = window.innerWidth;
+    x += vel * sentido;
+
+    if (x + 200 > anchoPantalla || x < 0) {
+      sentido *= -1;
+      mictlan.style.transform = sentido === 1 ? 'scaleX(1)' : 'scaleX(-1)';
+    }
+
+    mictlan.style.left = x + 'px';
+    requestAnimationFrame(patrullar);
+  }
+
+  mictlan.oncanplay = () => patrullar();
+</script>
+
+</body>
+</html>
+
+</body>
+</html>
